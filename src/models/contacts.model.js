@@ -15,9 +15,9 @@ exports.selectContact = (id, callback) => {
 };
 
 exports.insertContact = (data, callback) => {
-  const sql = `INSERT INTO contact ("userId","message","file") VALUES ($1,$2,$3) RETURNING *`;
+  const sql = `INSERT INTO contact ("purposeId", "userId","message","file") VALUES ($1,$2,$3,$4) RETURNING *`;
 
-  const values = [data.userId, data.message, data.file];
+  const values = [data.purposeId, data.userId, data.message, data.file];
 
   return db.query(sql, values, callback);
 };

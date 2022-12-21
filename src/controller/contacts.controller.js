@@ -42,6 +42,7 @@ exports.readContact = (req, res) => {
 };
 
 exports.createContact = (req, res) => {
+  req.boyd.userId = req.userData.id
   insertContact(req.body, (err, data) => {
     if (err) {
       console.log(err);
