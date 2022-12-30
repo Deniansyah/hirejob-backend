@@ -1,6 +1,5 @@
 const multer = require("multer");
-const { errorHandler } = require("../helper/errorHandler.helper");
-
+  
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, require("path").join(process.cwd(), "assets/uploads"));
