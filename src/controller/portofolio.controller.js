@@ -42,6 +42,10 @@ exports.readPortofolioById = (req, res) => {
 };
 
 exports.createPortofolio = (req, res) => {
+  if (req.file) {
+    req.body.picture = req.file.path;
+  }
+
   insertPortofolio(req.body, (err, data) => {
     if (err) {
       console.log(err);
@@ -55,7 +59,7 @@ exports.createPortofolio = (req, res) => {
 };
 
 exports.UpdatePortofolio = (req, res) => {
-  updatePortofolio(req.params.id, req.body,(err, data) => {
+  updatePortofolio(req.params.id, req.body, (err, data) => {
     if (err) {
       console.log(err);
     }
