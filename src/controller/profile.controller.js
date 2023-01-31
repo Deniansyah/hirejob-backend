@@ -136,35 +136,7 @@ exports.readSkillsByToken = (req, res) => {
 
 exports.updateProfilePicture = (req, res) => {
   if (req.file) {
-    req.body.picture = req.file.filename;
-    selectUser(req.userData.id, (error, results) => {
-      if (error) {
-        return errorHandler(error, res);
-      }
-      if (results.rows.length) {
-        const [user] = results.rows;
-        fm.ensureFile(
-          require("path").join(process.cwd(), "assets/uploads", user.picture),
-          (error) => {
-            if (error) {
-              return errorHandler(error, res);
-            }
-            fs.rm(
-              require("path").join(
-                process.cwd(),
-                "assets/uploads",
-                user.picture
-              ),
-              (error) => {
-                if (error) {
-                  return errorHandler(error, res);
-                }
-              }
-            );
-          }
-        );
-      }
-    });
+    req.body.picture = req.file.path;
   }
 
   patchUser(req.userData.id, req.body, (error, results) => {
