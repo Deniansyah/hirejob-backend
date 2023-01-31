@@ -30,10 +30,11 @@ exports.patchUserSkill = (id, data, callback) => {
   return db.query(sql, values, callback);
 };
 
-exports.deleteUserSkill = (id, callback) => {
-  const sql = `DELETE FROM "userSkills" WHERE id=$1 RETURNING *`;
+exports.deleteUserSkill = (userId, skillId, callback) => {
+  const sql = `DELETE FROM "userSkills" WHERE "userId"=$1 AND "skillId"=$2 RETURNING *`;
 
-  const values = [id];
+  const values = [userId, skillId];
+  console.log(values);
 
   return db.query(sql, values, callback);
 };

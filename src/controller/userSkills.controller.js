@@ -76,7 +76,7 @@ exports.updateUserSkill = (req, res) => {
 };
 
 exports.deleteUserSkill = (req, res) => {
-  deleteUserSkill(req.params.id, (err, result) => {
+  deleteUserSkill(req.userData.id, req.params.skillId, (err, result) => {
     if (err) {
       console.log(err);
     }
