@@ -1,18 +1,10 @@
-const {
-  selectUserByEmail,
-  insertRegisterEmploye,
-  insertRegisterRecruter,
-  patchUser,
-} = require("../models/users.model");
+const { selectUserByEmail, insertRegisterEmploye, insertRegisterRecruter, patchUser } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const argon = require("argon2");
 const { errorHandler } = require("../helper/errorHandler.helper");
 const { validationResult } = require("express-validator");
-const {
-  insertResetPassword,
-  selectResetPasswordByEmailAndCode,
-  deletedResetPassword,
-} = require("../models/resetPassword.model");
+const { insertResetPassword, selectResetPasswordByEmailAndCode, deletedResetPassword } = require("../models/resetPassword.model");
+const transporter = require("../helper/nodemailer.helper");
 
 exports.login = (req, res) => {
   selectUserByEmail(req.body.email, async (err, { rows }) => {
@@ -104,10 +96,7 @@ exports.registerRecruter = async (req, res) => {
       } else {
         const [user] = data.userQuery.rows;
         const [company] = data.companyQuery.rows;
-        const token = jwt.sign(
-          { id: user.id, companyId: company.id },
-          "backend-secret"
-        );
+        const token = jwt.sign({ id: user.id, companyId: company.id }, "backend-secret");
 
         return res.status(200).json({
           success: true,
@@ -133,18 +122,30 @@ exports.forgotPassword = (req, res) => {
     }
     if (user.length) {
       const [users] = user;
+      const code = Math.ceil(Math.random() * 90000 + 10000);
       const data = {
         email,
         userId: users.id,
-        code: Math.ceil(Math.random() * 90000),
+        code,
       };
       insertResetPassword(data, (err, { rows: results }) => {
-        if (results.length) {
+        const sendCode = {
+          from: "peworld1222@gmail.com",
+          to: email,
+          subject: "Code Reset Password",
+          html: `<p>Your reset password code ${code}</p>`,
+        };
+
+        transporter.sendMail(sendCode, (err) => {
+          if (err) {
+            return errorHandler(err, res);
+          }
+          
           return res.status(200).json({
             success: true,
             message: "Reset Password has been requested",
           });
-        }
+        });
       });
     } else {
       return res.status(400).json({
@@ -165,12 +166,8 @@ exports.resetPassword = (req, res) => {
       }
       try {
         if (user.length) {
-          // console.log(user)
           const [resetRequest] = user;
-          if (
-            new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 <
-            new Date().getTime()
-          ) {
+          if (new Date(resetRequest.createdAt).getTime() + 15 * 60 * 1000 < new Date().getTime()) {
             throw Error("backend error: code_expired");
           }
 
