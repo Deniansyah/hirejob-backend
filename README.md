@@ -124,6 +124,10 @@ Web application that connect jobseeker and recruiter to help find their dream jo
 | /company/:id                                             | PATCH |                               UPDATE COMPANY |
 | /company/:id                                             | DELETE|                               DELETE COMPANY |
 
+# Database Schema Design
+![ERD png](https://user-images.githubusercontent.com/105056679/216871037-757aecfa-4e06-41db-975d-7bf625e51786.png)
+
+
 
 
 
