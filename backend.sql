@@ -3,7 +3,7 @@
 CREATE TABLE "users" (
     "id"            INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "picture"       VARCHAR(255),
-    "name"     VARCHAR(255) NOT NULL,
+    "name"          VARCHAR(255) NOT NULL,
     "phoneNumber"   VARCHAR(255),
     "email"         VARCHAR(255) NOT NULL,
     "password"      VARCHAR(255) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE "users" (
     "github"        VARCHAR(255),
     "gitlab"        VARCHAR(255),
     "status"        VARCHAR(255),
-    "role"        VARCHAR(255) NOT NULL,
+    "role"          VARCHAR(255) NOT NULL,
     "createdAt"     TIMESTAMPTZ DEFAULT now(),
     "updatedAt"     TIMESTAMPTZ
 );
