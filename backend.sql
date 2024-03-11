@@ -100,3 +100,5 @@ ALTER TABLE users ADD CONSTRAINT users_email_unique UNIQUE (email);
 ALTER TABLE users ADD CONSTRAINT users_phoneNumber_unique UNIQUE ("phoneNumber");
 
 ALTER TABLE "resetPassword" ADD COLUMN email VARCHAR(255) NOT NULL;
+
+ALTER TABLE "users" ADD COLUMN "linkedin" VARCHAR(255);
